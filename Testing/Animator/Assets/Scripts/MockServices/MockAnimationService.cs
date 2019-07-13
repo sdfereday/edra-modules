@@ -15,6 +15,7 @@ namespace RedPanda.MockServices
                     new GateModel()
                     {
                         animationName = "Idle",
+                        interrupts = false,
                         floatConditions = new List<GateFloat>()
                         {
                             new GateFloat()
@@ -24,12 +25,12 @@ namespace RedPanda.MockServices
                                 Expected = 0.0f,
                                 LogicMethod = LOGIC_METHOD_TYPE.FLOAT_EQUAL
                             }
-                        },
-                        boolConditions = null
+                        }
                     },
                     new GateModel()
                     {
                         animationName = "Walk",
+                        interrupts = false,
                         floatConditions = new List<GateFloat>()
                         {
                             new GateFloat()
@@ -39,8 +40,22 @@ namespace RedPanda.MockServices
                                 Expected = 0.0f,
                                 LogicMethod = LOGIC_METHOD_TYPE.FLOAT_GREATER_THAN
                             }
-                        },
-                        boolConditions = null
+                        }
+                    },
+                    new GateModel()
+                    {
+                        animationName = "Attack",
+                        interrupts = true,
+                        boolConditions = new List<GateBool>()
+                        {
+                            new GateBool()
+                            {
+                                Id = "attack",
+                                Value = false,
+                                Expected = true,
+                                LogicMethod = LOGIC_METHOD_TYPE.BOOL_TRUE
+                            }
+                        }
                     }
                 }
             }

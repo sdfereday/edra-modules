@@ -33,8 +33,9 @@ namespace RedPanda.Animator
             return new AnimationGate()
                 {
                     playAnimation = gate.animationName,
-                    floatConditions = floatConditions,
-                    boolConditions = boolConditions
+                    interrupts = gate.interrupts,
+                    floatConditions = floatConditions == null ? new List<ConditionObject<float>>() : floatConditions,
+                    boolConditions = boolConditions == null ? new List<ConditionObject<bool>>() : boolConditions
                 };
             }).ToList();
         }
@@ -58,6 +59,7 @@ namespace RedPanda.Animator
 
             AnimationGate firstTruthyGate = AnimationGateData
                 .Where(x => x.IsTruthy())
+                .OrderByDescending(x => x.interrupts)
                 .FirstOrDefault();
 
             if (firstTruthyGate != null)

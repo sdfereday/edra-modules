@@ -383,6 +383,7 @@ MonoBehaviour:
   AnimationsAvailable:
   - {fileID: 11400000, guid: 5e7ea5ae1182d084fafa2ee06cf68105, type: 2}
   - {fileID: 11400000, guid: e96974436e4b9c040acf1b7bb5003cf9, type: 2}
+  - {fileID: 11400000, guid: a0b024c2dcdc8e84986c90460eaf0213, type: 2}
 --- !u!114 &2094873591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,4 +413,6 @@ MonoBehaviour:
   floatConditionTriggers:
   - id: magnitude
     value: 0
-  boolConditionTriggers: []
+  boolConditionTriggers:
+  - id: attack
+    value: 0
