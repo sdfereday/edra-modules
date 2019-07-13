@@ -4,7 +4,7 @@ namespace RedPanda.Animator
 {
     public class GateModel
     {
-        public string playAnimation;
+        public string animationName;
         public List<GateFloat> floatConditions;
         public List<GateBool> boolConditions;
     }

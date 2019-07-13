@@ -32,7 +32,7 @@ namespace RedPanda.Animator
             // Nasty stuff ended, we just return a new animation gate.
             return new AnimationGate()
                 {
-                    playAnimation = gate.playAnimation,
+                    playAnimation = gate.animationName,
                     floatConditions = floatConditions,
                     boolConditions = boolConditions
                 };

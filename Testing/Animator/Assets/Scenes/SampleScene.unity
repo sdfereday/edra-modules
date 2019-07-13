@@ -409,3 +409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityId: player
+  floatConditionTriggers:
+  - id: magnitude
+    value: 0
+  boolConditionTriggers: []
