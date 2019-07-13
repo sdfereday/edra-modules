@@ -8,19 +8,23 @@ namespace RedPanda.Animator
     public class AnimationGate
     {
         public string playAnimation;
-        public bool isTrigger = false;
+        public bool interrupts = false;
 
         public List<ConditionObject<float>> floatConditions;
         public List<ConditionObject<bool>> boolConditions;
 
         public void SetFloat(string query, float value)
         {
+            if (floatConditions.Count == 0) return;
+
             floatConditions.FirstOrDefault(condition => condition.Id == query)
                 .Value = value;
         }
 
         public void SetBool(string query, bool value)
         {
+            if (boolConditions.Count == 0) return;
+
             boolConditions.FirstOrDefault(condition => condition.Id == query)
                 .Value = value;
         }

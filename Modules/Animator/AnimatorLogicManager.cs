@@ -1,31 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using RedPanda.Entities;
-using RedPanda.Storage;
 
 namespace RedPanda.Animator
 {
     [RequireComponent(typeof(SpriteAnimator))]
     public class AnimatorLogicManager : MonoBehaviour
     {
-        public CharacterObject CharacterData;
         public SpriteAnimator SpriteAnimator;
         private List<AnimationGate> AnimationGateData;
 
-        private void Awake()
+        public void Init(List<GateModel> gates)
         {
-            // TODO: Move this out of here eventually (worth splitting json files out also?)
-            // PLUS, don't store this in the user directory. It belongs to the games files, it
-            // might even be worth making it in to a binary eventually.
             AnimationGateData = new List<AnimationGate>();
 
-            var loadedGates = SaveDataManager.LoadAssetData<List<GateModelCollection>>(DataConsts.ANIMATION_LOGIC_FILE)
-                .Where(x => x.targetEntity == CharacterData.Id)
-                .FirstOrDefault().gates;
-
             // Attempt to reconstruct gate data using this new instanced data
-            AnimationGateData = loadedGates.Select(gate =>
+            AnimationGateData = gates.Select(gate =>
             {
             // This is where it gets rather nasty. Compare via switch to see what we need to bind. It's also nasty
             // IMO because I have to cast it as a condition object, then convert it all to a list.
@@ -42,9 +32,10 @@ namespace RedPanda.Animator
             // Nasty stuff ended, we just return a new animation gate.
             return new AnimationGate()
                 {
-                    playAnimation = gate.playAnimation,
-                    floatConditions = floatConditions,
-                    boolConditions = boolConditions
+                    playAnimation = gate.animationName,
+                    interrupts = gate.interrupts,
+                    floatConditions = floatConditions == null ? new List<ConditionObject<float>>() : floatConditions,
+                    boolConditions = boolConditions == null ? new List<ConditionObject<bool>>() : boolConditions
                 };
             }).ToList();
         }
@@ -68,6 +59,7 @@ namespace RedPanda.Animator
 
             AnimationGate firstTruthyGate = AnimationGateData
                 .Where(x => x.IsTruthy())
+                .OrderByDescending(x => x.interrupts)
                 .FirstOrDefault();
 
             if (firstTruthyGate != null)
