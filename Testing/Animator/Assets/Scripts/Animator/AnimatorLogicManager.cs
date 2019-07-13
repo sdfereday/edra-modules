@@ -10,15 +10,12 @@ namespace RedPanda.Animator
         public SpriteAnimator SpriteAnimator;
         private List<AnimationGate> AnimationGateData;
 
-        public void Init(List<GateModelCollection> inboundGateData, string targetId)
+        public void Init(List<GateModel> gates)
         {
             AnimationGateData = new List<AnimationGate>();
 
-            List<GateModel> loadedGates = inboundGateData.Where(x => x.targetEntity == targetId)
-                .FirstOrDefault().gates;
-
             // Attempt to reconstruct gate data using this new instanced data
-            AnimationGateData = loadedGates.Select(gate =>
+            AnimationGateData = gates.Select(gate =>
             {
             // This is where it gets rather nasty. Compare via switch to see what we need to bind. It's also nasty
             // IMO because I have to cast it as a condition object, then convert it all to a list.
