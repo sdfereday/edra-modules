@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RedPanda.Utils
+namespace RedPanda.Helpers
 {
     [RequireComponent(typeof(SpriteRenderer))]
     public class SortZ : MonoBehaviour

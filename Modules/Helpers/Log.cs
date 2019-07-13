@@ -1,4 +1,4 @@
-﻿namespace RedPanda.Utils
+﻿namespace RedPanda.Helpers
 {
     public static class Log
     {

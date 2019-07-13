@@ -1,27 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using RedPanda.Entities;
-using RedPanda.Storage;
 
 namespace RedPanda.Animator
 {
     [RequireComponent(typeof(SpriteAnimator))]
     public class AnimatorLogicManager : MonoBehaviour
     {
-        public CharacterObject CharacterData;
         public SpriteAnimator SpriteAnimator;
         private List<AnimationGate> AnimationGateData;
 
-        private void Awake()
+        public void Init(List<GateModelCollection> inboundGateData, string targetId)
         {
-            // TODO: Move this out of here eventually (worth splitting json files out also?)
-            // PLUS, don't store this in the user directory. It belongs to the games files, it
-            // might even be worth making it in to a binary eventually.
             AnimationGateData = new List<AnimationGate>();
 
-            var loadedGates = SaveDataManager.LoadAssetData<List<GateModelCollection>>(DataConsts.ANIMATION_LOGIC_FILE)
-                .Where(x => x.targetEntity == CharacterData.Id)
+            List<GateModel> loadedGates = inboundGateData.Where(x => x.targetEntity == targetId)
                 .FirstOrDefault().gates;
 
             // Attempt to reconstruct gate data using this new instanced data

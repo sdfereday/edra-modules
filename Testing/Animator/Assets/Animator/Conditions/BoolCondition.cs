@@ -1,4 +1,4 @@
-﻿using RedPanda.Utils;
+﻿using RedPanda.Helpers;
 
 namespace RedPanda.Animator
 {
