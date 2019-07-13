@@ -52,18 +52,51 @@ namespace RedPanda.Animator
                 AnimationGateData.ForEach(x => x.SetBool(id, value));
         }
 
+        // TODO: add to a class
+        private string dissallow = string.Empty;
+        private bool truthValue;
+
         private void Update()
         {
             if (AnimationGateData == null)
                 return;
 
+            /*
+             We need to check:
+             - if anim was interupter, if the state has changed
+             - keep a record of that state 'if' the animator just exited
+             - if it did just exit, but the state has not changed, and we only
+             wish to play it once, then we know that we cannot push that animation
+             until its state has reset again.
+             */
+             // This ONLY applies to animations that have an exit routine.
+             // TOOD: Make a list out of this, more robust.
+             if (SpriteAnimator.JustExited)
+            {
+                dissallow = SpriteAnimator.CurrentAnimName;                
+            }
+
+             // Check if anything's being dissallowed
+            if (dissallow.Length > 0)
+            {
+                // Check if the state's returned to what's acceptable
+                AnimationGate dissallowedGate = AnimationGateData.FirstOrDefault(x => x.playAnimation == dissallow);
+                dissallow = dissallowedGate.IsTruthy() != truthValue ? string.Empty : dissallow;
+            }
+
             AnimationGate firstTruthyGate = AnimationGateData
-                .Where(x => x.IsTruthy())
+                .Where(x => x.playAnimation != dissallow && x.IsTruthy())
                 .OrderByDescending(x => x.interrupts)
                 .FirstOrDefault();
 
-            if (firstTruthyGate != null)
+            if (firstTruthyGate != null && !SpriteAnimator.IsCurrent(firstTruthyGate.playAnimation))
+            {
                 SpriteAnimator.PlayAnimation(firstTruthyGate.playAnimation);
+
+                // Expected value needed to reset (could be no longer true, or false)
+                if (firstTruthyGate.interrupts)
+                    truthValue = firstTruthyGate.IsTruthy();
+            }
         }
     }
 }
