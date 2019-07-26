@@ -32,7 +32,7 @@ namespace RedPanda.MockServices
             floatConditionTriggers = floatConditionTriggers != null ? floatConditionTriggers : new List<FloatPair>();
             boolConditionTriggers = boolConditionTriggers != null ? boolConditionTriggers : new List<BoolPair>();
 
-            animLogic = gameObject.GetComponent<AnimatorLogicManager>();
+            animLogic = GetComponent<AnimatorLogicManager>();
             animLogic.Init(MockAnimationService.GateData
                 .FirstOrDefault(x => x.targetId == entityId)
                 .gates);
