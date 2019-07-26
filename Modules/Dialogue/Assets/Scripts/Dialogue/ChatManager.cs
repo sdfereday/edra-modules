@@ -54,7 +54,7 @@ namespace RedPanda.Dialogue
             {
                 WaitingForChoices = true;
                 // Load choices available
-                Debug.Log(node.Choices.Count);
+                Debug.Log("Choices available: " + node.Choices.Count);
 
                 // TODO: You'll have to somehow pass things with the nodes here. Perhaps make
                 // a small class to pass, or, some sort of event listener?
@@ -103,7 +103,7 @@ namespace RedPanda.Dialogue
             Next(startChatId);
         }
 
-        public void Next(string specificPoint = null)
+        public void Next(string nodeId = null)
         {
             if (WaitingForChoices || !IsActive) return;
 
@@ -115,11 +115,11 @@ namespace RedPanda.Dialogue
 
             ClearButtons();
 
-            ChatNode node = chatIterator.GoToNext(specificPoint);
+            ChatNode node = chatIterator.GoToNext(nodeId);
 
             if (node == null)
             {
-                Debug.LogError("Chat quit unexpectedly.");
+                Debug.LogError("Chat quit unexpectedly. Couldn't find a node to display.");
                 OnChatComplete();
                 return;
             }

@@ -21,7 +21,7 @@ namespace RedPanda.MockServices
             },
             new ChatNode()
             {
-                Id = "n2",
+                Id = "n3",
                 Choices = new List<ChatNode>()
                 {
                     new ChatNode()
@@ -37,7 +37,7 @@ namespace RedPanda.MockServices
                         Text = "I am choice 2"
                     }
                 },
-                Text = "Hello Back!"
+                Text = "I have some choices for you:"
             },
             new ChatNode()
             {

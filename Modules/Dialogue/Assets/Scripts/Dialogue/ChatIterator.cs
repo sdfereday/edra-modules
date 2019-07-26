@@ -19,11 +19,26 @@ namespace RedPanda.Dialogue
 
         public ChatIterator(List<ChatNode> _collection)
         {
+            // TODO: Add to some sort of central error service somewhere.
+            try {
+                if (_collection.GroupBy(x => x.Id).Any(g => g.Count() > 1))
+                {
+                    throw new Exception("Collection had duplicate ID's, these must be unique to each node.");
+                }
+            } catch (Exception e)
+            {
+                Log.Out(e);
+            }
+            
             Collection = new List<ChatNode>(_collection);
             ChatQueue = new Queue<ChatNode>();
         }
 
-        private bool NodeDataNotValid(ChatNode node) => node.To == null && !node.HasChoices && !node.Actions.Any(action => action == EndConversationAction);
+        private bool NodeDataNotValid(ChatNode node) => node.To == null
+            && !node.IsLast
+            && !node.HasChoices
+            && (!node.HasActions || !node.Actions.Any(action => action == EndConversationAction));
+
         private bool NodeDataConflict(ChatNode node) => node.To != null && node.HasChoices;
 
         private bool ValidateNode(ChatNode node)
@@ -69,7 +84,7 @@ namespace RedPanda.Dialogue
             ChatNode CurrentNode = query != null ? QueryNode(query) : ChatQueue.Dequeue();
 
             if (CurrentNode == null) return null;
-
+            
             if (CurrentNode.HasRoute)
             {
                 ChatNode NextNode = QueryNode(CurrentNode.To);
