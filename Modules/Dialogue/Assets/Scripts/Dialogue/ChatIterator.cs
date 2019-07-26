@@ -7,7 +7,6 @@ namespace RedPanda.Dialogue
 {
     public class ChatIterator
     {
-        private const string EndConversationAction = "endConversation";
         private const string SaveConversationAction = "save";
         private const string CancelConversationAction = "cancel";
 
@@ -37,7 +36,7 @@ namespace RedPanda.Dialogue
         private bool NodeDataNotValid(ChatNode node) => node.To == null
             && !node.IsLast
             && !node.HasChoices
-            && (!node.HasActions || !node.Actions.Any(action => action == EndConversationAction));
+            && !node.HasActions;
 
         private bool NodeDataConflict(ChatNode node) => node.To != null && node.HasChoices;
 
@@ -84,14 +83,14 @@ namespace RedPanda.Dialogue
             ChatNode CurrentNode = query != null ? QueryNode(query) : ChatQueue.Dequeue();
 
             if (CurrentNode == null) return null;
-            
+
             if (CurrentNode.HasRoute)
             {
                 ChatNode NextNode = QueryNode(CurrentNode.To);
                 ChatQueue.Enqueue(NextNode);
             }
 
-            if (CurrentNode.HasActions && CurrentNode.Actions.Any(action => action == EndConversationAction))
+            if (CurrentNode.HasActions)
             {
                 if (CurrentNode.Actions.Any(action => action == SaveConversationAction))
                 {
@@ -105,8 +104,6 @@ namespace RedPanda.Dialogue
                     // ... onCancel, etc
                     Log.Out("Cancelled chain, nothing saved.");
                 }
-
-                CurrentNode.IsLast = true;
             }
 
             return CurrentNode;
