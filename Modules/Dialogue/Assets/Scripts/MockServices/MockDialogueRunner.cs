@@ -12,8 +12,8 @@ namespace RedPanda.MockServices
         private List<ChatNode> LoadedChatNodes;
         private MockEntity[] MockEntities;
 
-        private void OnEnable() => ChatManager.OnNext += ApplyCurrentSpeaker;
-        private void OnDisable() => ChatManager.OnNext -= ApplyCurrentSpeaker;
+        private void OnEnable() => ChatManager.OnNext += OnNextChatNode;
+        private void OnDisable() => ChatManager.OnNext -= OnNextChatNode;
 
         private void Start()
         {
@@ -28,11 +28,16 @@ namespace RedPanda.MockServices
         {
             if (Input.GetKeyDown("space") && !Chat.IsActive)
             {
-                Chat.StartDialogue(LoadedChatStart, MockDialogueService.ChatNodes);
+                Chat.StartDialogue(LoadedChatStart, MockDialogueService.ChatNodes, MockDialogueService
+                    .ChatActors
+                    .Select(ActorId => MockEntities.FirstOrDefault(y => y.Id == ActorId).Name)
+                    .ToArray());
             }
         }
 
-        private void ApplyCurrentSpeaker(string actorId) =>
-            Chat.SetNameField(MockEntities.FirstOrDefault(y => y.Id == actorId).Name);
+        private void OnNextChatNode(ChatNode nodeData)
+        {
+            Chat.SetNameField(MockEntities.FirstOrDefault(y => y.Id == nodeData.ActorId).Name);
+        }
     }
 }

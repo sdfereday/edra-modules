@@ -5,7 +5,8 @@ namespace RedPanda.MockServices
 {
     public static class MockDialogueService
     {
-        public static string[] ChatActors = new string[] { "player", "dave" };
+        public static string[] Actors = new string[] { "player", "dave" };
+        public static string[] Places = new string[] { "gno" };
 
         public static List<ChatNode> ChatNodes = new List<ChatNode>()
         {
@@ -13,14 +14,14 @@ namespace RedPanda.MockServices
             {
                 Id = "n1",
                 To = "n2",
-                Text = "Hello {targetActorId}!",
+                Text = $"Hello {Actors[1]}!",
                 ActorId = "player"
             },
             new ChatNode()
             {
                 Id = "n2",
                 To = "n3",
-                Text = "Hello back {targetActorId}!",
+                Text = $"Hello back {Actors[0]}!",
                 ActorId = "dave"
             },
             new ChatNode()
@@ -38,16 +39,16 @@ namespace RedPanda.MockServices
                     {
                         Id = "choice2",
                         To = "n1",
-                        Text = "Wait, let's start over!"
+                        Text = $"Wait, let's start over {Actors[1]}!"
                     }
                 },
-                Text = "I have some choices for you:",
+                Text = $"I have some choices for you {Actors[0]}. Would you consider visiting {Places[0]}?",
                 ActorId = "dave"
             },
             new ChatNode()
             {
                 Id = "n4",
-                Text = "Goodbye from choice 1!",
+                Text = $"Goodbye from choice 1, {Actors[1]}!",
                 ActorId = "player",
                 IsLast = true
             }

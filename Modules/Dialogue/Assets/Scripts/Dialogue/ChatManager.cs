@@ -11,7 +11,7 @@ namespace RedPanda.Dialogue
         public delegate void CompleteAction();
         public static event CompleteAction OnConversationComplete;
 
-        public delegate void NextAction(string ActorId);
+        public delegate void NextAction(ChatNode nodeData);
         public static event NextAction OnNext;
 
         public GameObject DialogueBox;
@@ -46,7 +46,7 @@ namespace RedPanda.Dialogue
 
         private IEnumerator TypeSentence(ChatNode node)
         {
-            OnNext?.Invoke(node.ActorId);
+            OnNext?.Invoke(node);
 
             DialogueField.text = "";
 
@@ -100,9 +100,12 @@ namespace RedPanda.Dialogue
             OnConversationComplete?.Invoke();
         }
 
-        public void StartDialogue(string startChatId, List<ChatNode> chatData)
+        public void StartDialogue(string startChatId, List<ChatNode> chatData, string[] chatActorNames)
         {
-            chatIterator = new ChatIterator(chatData);
+            List<ChatNode> parsedChat = new List<ChatNode>(chatData);
+            //parsedChat.ForEach(node => node.Text = string.Format(node.Text, chatActorNames));
+
+            chatIterator = new ChatIterator(parsedChat);
 
             IsActive = true;
             DialogueBox.SetActive(IsActive);
@@ -138,7 +141,7 @@ namespace RedPanda.Dialogue
             StopAllCoroutines();
             StartCoroutine(TypeSentence(node));
         }
-
+        
         public void SetNameField(string name) => NameField.text = name;
     }
 }
