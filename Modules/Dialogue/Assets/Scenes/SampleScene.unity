@@ -719,7 +719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf70dcce8aee2e34b8b832f05b347ee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: dave
+  Id: npcId
   Name: Dave
 --- !u!212 &1562570484
 SpriteRenderer:
@@ -879,8 +879,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf70dcce8aee2e34b8b832f05b347ee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: player
-  Name: Player
+  Id: playerId
+  Name: Sarah
 --- !u!1 &2122411126
 GameObject:
   m_ObjectHideFlags: 0

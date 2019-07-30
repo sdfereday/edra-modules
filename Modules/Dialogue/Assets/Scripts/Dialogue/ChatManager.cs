@@ -48,6 +48,7 @@ namespace RedPanda.Dialogue
         {
             OnNext?.Invoke(node);
 
+            NameField.text = node.ActorName;
             DialogueField.text = "";
 
             foreach (char letter in node.Text.ToCharArray())
@@ -100,11 +101,9 @@ namespace RedPanda.Dialogue
             OnConversationComplete?.Invoke();
         }
 
-        public void StartDialogue(string startChatId, List<ChatNode> chatData, string[] chatActorNames)
+        public void StartDialogue(string startChatId, List<ChatNode> chatData)
         {
-            List<ChatNode> parsedChat = new List<ChatNode>(chatData);
-            //parsedChat.ForEach(node => node.Text = string.Format(node.Text, chatActorNames));
-
+            List<ChatNode> parsedChat = new List<ChatNode>(chatData);          
             chatIterator = new ChatIterator(parsedChat);
 
             IsActive = true;

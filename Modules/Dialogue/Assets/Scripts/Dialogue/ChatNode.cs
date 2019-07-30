@@ -22,6 +22,7 @@ namespace RedPanda.Dialogue
         /// Can be populated externally or set in data, up to you
         /// </summary>
         public string ActorName { get; set; }
+        public string[] TextParams { get; set; }
 
         /// <summary>
         /// Simple statuses for this node
