@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using RedPanda.Helpers;
+using RedPanda.Toolbox.Helpers;
 
 namespace RedPanda.Dialogue
 {

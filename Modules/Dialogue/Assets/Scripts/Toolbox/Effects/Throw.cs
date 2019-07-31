@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using RedPanda.UserInput;
 
 namespace RedPanda.Toolbox.Effects
 {
@@ -10,10 +9,8 @@ namespace RedPanda.Toolbox.Effects
         public float parabolaMaxHeight = 2.5f; // desired parabola height
         public float distanceToTravel = 5;
         public float speedOfTravel = 3;
-        //public GameObject TargetingReticule;
-
         public Transform DirectionalPrefab;
-        private IDirectionInfo DirectionalInfo;
+        //public GameObject TargetingReticule;
 
         private float flightDuration = 0f;
         private float elapsed_time = 0f;
@@ -27,7 +24,6 @@ namespace RedPanda.Toolbox.Effects
 
         private void Awake()
         {
-            DirectionalInfo = DirectionalPrefab.GetComponent<IDirectionInfo>();
             //SpawnedRecticule = Instantiate(TargetingReticule.transform, transform.position, Quaternion.identity);
             //SpawnedRecticule.gameObject.SetActive(false);
         }
@@ -50,11 +46,11 @@ namespace RedPanda.Toolbox.Effects
             //SpawnedRecticule.transform.position = destination;
         }
 
-        public void StartThrow(Component _objectToThrow)
+        public void StartThrow(Component _objectToThrow, Vector2 _targetDirection)
         {
             ObjectToThrow = _objectToThrow.transform;
             flightDuration = targetDistance / destination.magnitude;
-            targetDirection = DirectionalInfo.GetFirectionVector2D();
+            targetDirection = _targetDirection;
             elapsed_time = 0;
 
             //SpawnedRecticule.gameObject.SetActive(false);
