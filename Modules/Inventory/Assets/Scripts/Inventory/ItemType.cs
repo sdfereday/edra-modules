@@ -2,7 +2,7 @@
 {
     public enum ITEM_TYPE
     {
-        CHICKEN,
+        STANDARD_ITEM,
         KEY_ITEM
     }
 }

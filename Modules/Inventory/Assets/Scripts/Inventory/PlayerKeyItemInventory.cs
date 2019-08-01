@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using RedPanda.Storage;
-using RedPanda.Interaction;
 
 namespace RedPanda.Inventory
 {
@@ -11,38 +9,23 @@ namespace RedPanda.Inventory
         [System.Serializable]
         public class KeyItemMeta
         {
-            public string Name;
             public string Id;
+            public string Name;
             public ITEM_TYPE Type;
         }
 
-        public List<KeyItemMeta> _keyItems;
-        public List<KeyItemMeta> Keyitems { get => _keyItems; }
+        [SerializeField]
+        private List<KeyItemMeta> itemsField;
+        public List<KeyItemMeta> Items { get => itemsField; }
 
-        private void Awake()
+        public void Init(List<KeyItemMeta> loadedItems = null)
         {
-            var loadedItems = SaveDataManager.LoadData<List<KeyItemMeta>>(DataConsts.KEY_ITEM_DATA_FILE);
-            _keyItems = loadedItems != null ? loadedItems : new List<KeyItemMeta>();
+            itemsField = loadedItems != null ? new List<KeyItemMeta>(loadedItems) : new List<KeyItemMeta>();
         }
 
-        private void OnEnable()
+        public void AddItem(CollectibleItem keyItemObject)
         {
-            SaveGame.OnSaveSignal += SaveToDisk;
-        }
-
-        private void OnDisable()
-        {
-            SaveGame.OnSaveSignal -= SaveToDisk;
-        }
-
-        public void SaveToDisk()
-        {
-            SaveDataManager.SaveData(_keyItems, DataConsts.KEY_ITEM_DATA_FILE);
-        }
-
-        public void AddItem(CollectibleItem _keyItemObject)
-        {
-            var existing = _keyItems.Find(x => x.Id == _keyItemObject.Id || x.Name == _keyItemObject.CollectibleItemName);
+            var existing = itemsField.Find(x => x.Id == keyItemObject.Id || x.Name == keyItemObject.CollectibleItemName);
 
             if (existing != null)
             {
@@ -51,16 +34,16 @@ namespace RedPanda.Inventory
             else
             {
                 // Meta is just used to populate the temporary instance of the UI, etc.
-                _keyItems.Add(new KeyItemMeta()
+                itemsField.Add(new KeyItemMeta()
                 {
-                    Name = _keyItemObject.CollectibleItemName,
-                    Id = _keyItemObject.Id,
+                    Id = keyItemObject.Id,
+                    Name = keyItemObject.CollectibleItemName,
                     Type = ITEM_TYPE.KEY_ITEM
                 });
             }
 
         }
 
-        public bool HasItem(string _id) => _keyItems.Any(x => x.Id == _id);
+        public bool HasItem(string id) => itemsField.Any(x => x.Id == id);
     }
 }

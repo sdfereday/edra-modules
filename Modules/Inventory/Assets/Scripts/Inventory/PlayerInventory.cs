@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using RedPanda.Storage;
-using RedPanda.Interaction;
 
 namespace RedPanda.Inventory
 {
@@ -10,6 +8,7 @@ namespace RedPanda.Inventory
         [System.Serializable]
         public class ItemMeta
         {
+            public string Id;
             public string Name;
             public int Qty;
             public ITEM_TYPE Type;
@@ -17,76 +16,57 @@ namespace RedPanda.Inventory
             public int MpValue;
         }
 
-        public List<ItemMeta> _items;
-        public List<ItemMeta> Items
-        {
-            get
-            {
-                return _items;
-            }
-        }
+        [SerializeField]
+        public List<ItemMeta> itemsField;
+        public List<ItemMeta> Items { get => itemsField; }
 
-        private void Awake()
+        public void Init(List<ItemMeta> loadedItems = null)
         {
             // Notice how it's the meta that's getting stored here. The SO doesn't get touched
             // and is only used for reference. This might be what needs to be done on the 
             // scene context also...
-            var loadedItems = SaveDataManager.LoadData<List<ItemMeta>>(DataConsts.INVENTORY_DATA_FILE);
-            _items = loadedItems != null ? loadedItems : new List<ItemMeta>();
-
+            itemsField = loadedItems != null ? new List<ItemMeta>(loadedItems) : new List<ItemMeta>();
         }
 
-        private void OnEnable()
+        public void AddItem(CollectibleItem collectibleItemObject, int qty = 1)
         {
-            SaveGame.OnSaveSignal += SaveToDisk;
-        }
-
-        private void OnDisable()
-        {
-            SaveGame.OnSaveSignal -= SaveToDisk;
-        }
-
-        public void SaveToDisk()
-        {
-            SaveDataManager.SaveData(_items, DataConsts.INVENTORY_DATA_FILE);
-        }
-
-        public void AddItem(CollectibleItem _collectibleItemObject, int _qty = 1)
-        {
+            // TODO: Maybe don't find by type. An id is far more effective (use a table for this).
             // Check for existing and increase qty if so.
-            var existing = Items.Find(x => x.Type == _collectibleItemObject.CollectibleItemType);
+            var existing = itemsField.Find(x => x.Type == collectibleItemObject.CollectibleItemType);
 
             if (existing != null)
             {
-                existing.Qty += _qty;
+                existing.Qty += qty;
             }
             else
             {
                 // Meta is just used to populate the temporary instance of the UI, etc.
-                _items.Add(new ItemMeta()
+                itemsField.Add(new ItemMeta()
                 {
-                    Name = _collectibleItemObject.CollectibleItemName,
-                    Qty = _qty,
-                    Type = _collectibleItemObject.CollectibleItemType,
-                    HealthValue = _collectibleItemObject.CollectibleItemHealthValue,
-                    MpValue = _collectibleItemObject.CollectibleItemMpValue
+                    // TODO: Make sure we're checking against a schema to cut down on splicing hacks (if it's not in schema, it's not getting in).
+                    Id = collectibleItemObject.Id,
+                    Name = collectibleItemObject.CollectibleItemName,
+                    Qty = qty,
+                    Type = collectibleItemObject.CollectibleItemType,
+                    HealthValue = collectibleItemObject.CollectibleItemHealthValue,
+                    MpValue = collectibleItemObject.CollectibleItemMpValue
                 });
             }
         }
 
-        public void RemoveItem(ITEM_TYPE _type, int _qty = 1)
+        public void RemoveItem(string Id, int qty = 1)
         {
-            var existing = Items.Find(x => x.Type == _type);
+            var existing = itemsField.Find(x => x.Id == Id);
 
             if (existing != null)
             {
-                if (existing.Qty - _qty > 0)
+                if (existing.Qty - qty > 0)
                 {
-                    existing.Qty -= _qty;
+                    existing.Qty -= qty;
                 }
                 else
                 {
-                    _items.RemoveAll(x => x.Type == _type);
+                    itemsField.RemoveAll(x => x.Id == Id);
                 }
             }
         }
