@@ -3,6 +3,7 @@
     public enum INTERACTIBLE_TYPE
     {
         VOID,
+        USER,
         TRANSPORTABLE,
         DOORWAY,
         DIALOGUE,

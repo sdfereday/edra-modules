@@ -64,7 +64,7 @@ namespace RedPanda.MockServices
 
         private void Update()
         {
-            if (Input.GetKeyDown("space") && !Chat.IsActive)
+            if (Input.GetKeyDown(KeyCode.Space) && !Chat.IsActive)
             {
                 Chat.StartDialogue(FirstNodeId, ChatNodeData);
             }

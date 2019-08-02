@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
-using RedPanda.Interaction;
-using RedPanda.UserInput;
 
 namespace RedPanda.Interaction
 {
     public interface IInteractible
     {
-        void Use(Collider2D collider, INPUT_TYPE inputType);
+        void Trigger(INTERACTIBLE_TYPE originType, Transform originTransform);
+        void Cancel(INTERACTIBLE_TYPE originType, Transform originTransform);
         Transform Transform { get; }
-
-        INTERACTIBLE_TYPE GetInteractibleType();
+        INTERACTIBLE_TYPE InteractibleType { get; }
     }
 }

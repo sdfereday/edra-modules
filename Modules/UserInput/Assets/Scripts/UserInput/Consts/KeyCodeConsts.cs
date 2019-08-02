@@ -4,7 +4,7 @@ namespace RedPanda.UserInput
 {
     public static class KeyCodeConsts
     {
-        public const KeyCode USE = KeyCode.E;
+        public const KeyCode CONFIRM = KeyCode.E;
         public const KeyCode CANCEL = KeyCode.F;
         public const string Horizontal = "Horizontal";
         public const string Vertical = "Vertical";

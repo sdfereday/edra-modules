@@ -7,7 +7,8 @@ namespace RedPanda.UserInput
     public class InputController : MonoBehaviour, IDirectionInfo
     {
         public delegate void InputAction(INPUT_TYPE inputType);
-        public static event InputAction OnInput;
+        public static event InputAction OnConfirm;
+        public static event InputAction OnCancel;
 
         public float maxSpeed = 5f;
         public bool InteractionsEnabled { get; private set; }
@@ -28,7 +29,7 @@ namespace RedPanda.UserInput
 
             Facing = Vector2.right;
 
-            InteractionsEnabled = OnInput != null;
+            InteractionsEnabled = OnConfirm != null || OnCancel != null;
             MovementEnabled = true;
         }
 
@@ -38,14 +39,14 @@ namespace RedPanda.UserInput
 
             if (InteractionsEnabled)
             {
-                if (Input.GetKeyDown(KeyCodeConsts.USE))
+                if (Input.GetKeyDown(KeyCodeConsts.CONFIRM))
                 {
-                    OnInput(INPUT_TYPE.USE);
+                    OnConfirm(INPUT_TYPE.USE);
                 }
 
                 if (Input.GetKeyDown(KeyCodeConsts.CANCEL))
                 {
-                    OnInput(INPUT_TYPE.CANCEL);
+                    OnCancel(INPUT_TYPE.CANCEL);
                 }
             }
 
