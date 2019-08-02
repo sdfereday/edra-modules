@@ -41,4 +41,30 @@ TODO.
 TODO.
 
 ## Toolbox
+
+### Effects
+#### ChangeScene
 TODO.
+#### SmoothFollowTarget
+TODO.
+#### ToggledSprite
+TODO.
+#### VelocitySpriteFlip
+TODO.
+
+### Helpers
+#### ArrayHelpers
+TODO.
+#### ChanceHelpers
+TODO.
+#### DontDestroy
+TODO.
+#### Log
+TODO.
+#### LogicHelpers
+TODO.
+#### SortZ
+TODO.
+#### VectorHelpers
+TODO.
+
