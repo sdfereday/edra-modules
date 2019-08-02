@@ -28,29 +28,17 @@ TODO.
 ## Dungeon
 TODO.
 
-## Effects
-TODO.
-
-## EntityComponents
-TODO.
-
-## Global
-TODO.
-
-## Helpers
-TODO.
-
 ## Interaction
 TODO.
 
 ## Inventory
 TODO.
 
-## MainCamera
-TODO.
-
 ## Storage
 TODO.
 
 ## UserInput
+TODO.
+
+## Toolbox
 TODO.
