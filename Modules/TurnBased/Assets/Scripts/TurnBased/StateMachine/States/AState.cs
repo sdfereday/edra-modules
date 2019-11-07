@@ -3,15 +3,14 @@ using System.Collections;
 
 public abstract class AState
 {
-    public string id;
+    public string Id { get; protected set; }
     public bool IsComplete { get; protected set; }
 
     // Should really not do this
     public MonoBehaviour MonoBehaviourRef { get; set; }
 
-    public AState(string _id, MonoBehaviour _monoBehaviour)
+    public AState(MonoBehaviour _monoBehaviour)
     {
-        id = _id;
         MonoBehaviourRef = _monoBehaviour;
     }
 
@@ -20,7 +19,7 @@ public abstract class AState
         IsComplete = false;
         MonoBehaviourRef.StartCoroutine(Wait(Random.Range(1f, 5f)));
 
-        Debug.Log("Entered State - " + id);
+        Debug.Log("Entered State - " + Id);
     }
 
     public void Update()
@@ -30,7 +29,7 @@ public abstract class AState
 
     public void Exit()
     {
-        Debug.Log("Exited State - " + id);
+        Debug.Log("Exited State - " + Id);
     }
 
     public virtual IEnumerator Wait(float waitFor = 0f)

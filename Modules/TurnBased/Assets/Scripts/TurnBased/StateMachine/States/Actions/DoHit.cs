@@ -1,18 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 
 public class DoHit : AState
 {
     private Color SpriteColour;
-    private string opponentTag;
+    private FakeActor opponent;
 
-    public DoHit(string _id, MonoBehaviour _monoBehaviour, string opponentTag) : 
-        base(_id, _monoBehaviour)
+    public DoHit(MonoBehaviour _monoBehaviour, FakeActor opponent) : 
+        base(_monoBehaviour)
     {
+        Id = "attack";
         SpriteColour = MonoBehaviourRef.GetComponent<SpriteRenderer>().color;
-        this.opponentTag = opponentTag;
+        this.opponent = opponent;
     }
 
     public override void Enter()
@@ -21,15 +20,8 @@ public class DoHit : AState
         IsComplete = false;
         MonoBehaviourRef.StartCoroutine(Wait(Random.Range(1f, 5f)));
 
-        /* Naively find a target (again not performant, but we're only testing) */
-        List<GameObject> PossibleTargets = GameObject
-            .FindGameObjectsWithTag(opponentTag)
-            .ToList();
-        
-        // Test the hit
-        PossibleTargets[Random.Range(0, PossibleTargets.Count)]
-            .GetComponent<FakeActor>()
-            .FakeHitReaction();
+        // Test the hit on opponent (separate to own animation chain)
+        opponent.FakeHitReaction();
     }
 
     public override IEnumerator Wait(float waitFor = 0f)
@@ -37,8 +29,7 @@ public class DoHit : AState
         MonoBehaviourRef.GetComponent<SpriteRenderer>().color = Color.yellow;
 
         yield return new WaitForSeconds(waitFor);
-        IsComplete = true;
-
         MonoBehaviourRef.GetComponent<SpriteRenderer>().color = SpriteColour;
+        IsComplete = true;
     }
 }

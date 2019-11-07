@@ -5,9 +5,10 @@ public class DoTakeDamage : AState
 {
     private Color SpriteColour;
 
-    public DoTakeDamage(string _id, MonoBehaviour _monoBehaviour) :
-        base(_id, _monoBehaviour)
+    public DoTakeDamage(MonoBehaviour _monoBehaviour) :
+        base(_monoBehaviour)
     {
+        Id = "takeDamage";
         SpriteColour = MonoBehaviourRef.GetComponent<SpriteRenderer>().color;
     }
 
@@ -26,9 +27,9 @@ public class DoTakeDamage : AState
         MonoBehaviourRef.GetComponent<SpriteRenderer>().color = Color.red;
 
         yield return new WaitForSeconds(waitFor);
+        MonoBehaviourRef.GetComponent<SpriteRenderer>().color = SpriteColour;
         IsComplete = true;
 
         Debug.Log(MonoBehaviourRef.name + " done taking damage.");
-        MonoBehaviourRef.GetComponent<SpriteRenderer>().color = SpriteColour;
     }
 }

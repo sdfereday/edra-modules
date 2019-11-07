@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 247559711}
   - component: {fileID: 247559710}
   m_Layer: 0
-  m_Name: Actor3
+  m_Name: EnemyActor3
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -245,6 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actorName: Jeb
   opponentTag: Ally
+  factionType: 1
 --- !u!4 &247559712
 Transform:
   m_ObjectHideFlags: 0
@@ -596,7 +597,7 @@ GameObject:
   - component: {fileID: 1621397600}
   - component: {fileID: 1621397601}
   m_Layer: 0
-  m_Name: Actor2
+  m_Name: EnemyActor2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -630,6 +631,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actorName: Biff
   opponentTag: Ally
+  factionType: 1
 --- !u!212 &1621397601
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -692,7 +694,7 @@ GameObject:
   - component: {fileID: 1679224906}
   - component: {fileID: 1679224907}
   m_Layer: 0
-  m_Name: Actor1
+  m_Name: AllyActor1
   m_TagString: Ally
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -726,6 +728,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actorName: Becky
   opponentTag: Enemy
+  factionType: 0
 --- !u!212 &1679224907
 SpriteRenderer:
   m_ObjectHideFlags: 0

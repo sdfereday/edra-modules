@@ -1,7 +1,9 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
+/* This FSM type is an auto-exit type. It might be worthwhile making a different
+ * type if more control is required. This sort of FSM is good for automation or
+ * animating state types. */
 public class FSM
 {
     public List<AState> StateStack;
@@ -28,6 +30,8 @@ public class FSM
 
                 currentState = Top(StateStack);
 
+                /* If there's another state to continue with in the stack, enter it. Note that
+                 * params cannot be passed here right now, so this might not be desirable. */
                 if (currentState != null)
                 {
                     currentState.Enter();
@@ -42,7 +46,7 @@ public class FSM
 
     public void Push(AState stateInstance)
     {
-        if (!StateStack.Any(x => x.id == stateInstance.id))
+        if (!StateStack.Any(x => x.Id == stateInstance.Id))
         {
             StateStack.Add(stateInstance);
             WaitingToFinish = true;
