@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,11 +29,10 @@ public class DoMakeChoice : AState
     }
 
     /* Simulate chosen actions and animation delays */
-    public IEnumerator OnAttackChosen(float waitFor = 0f)
+    public void OnAttackChosen()
     {
         Debug.Log("Decided To Attack!");
-        MonoBehaviourRef.GetComponent<SpriteRenderer>().color = Color.green;
-
+        
         /* Naively find a target (again not performant, but we're only testing) */
         List<FakeActor> PossibleTargets = GameObject
             .FindObjectsOfType<FakeActor>()
@@ -43,19 +41,15 @@ public class DoMakeChoice : AState
 
         FakeActor ChosenTarget = PossibleTargets[UnityEngine.Random.Range(0, PossibleTargets.Count)];
 
-        /* Simulate animation */
-        yield return new WaitForSeconds(waitFor);
-        MonoBehaviourRef.GetComponent<SpriteRenderer>().color = SpriteColour;
         IsComplete = true;
 
         OnChoice?.Invoke(BATTLE_ACTION_TYPE.ATTACK, ChosenTarget);
     }
 
-    public IEnumerator OnHealChosen(float waitFor = 0f)
+    public void OnHealChosen(float waitFor = 0f)
     {
         Debug.Log("Decided To Heal!");
-        MonoBehaviourRef.GetComponent<SpriteRenderer>().color = Color.green;
-
+        
         /* Naively find a target (again not performant, but we're only testing) */
         List<FakeActor> PossibleTargets = GameObject
             .FindObjectsOfType<FakeActor>()
@@ -64,9 +58,6 @@ public class DoMakeChoice : AState
 
         FakeActor ChosenTarget = PossibleTargets[UnityEngine.Random.Range(0, PossibleTargets.Count)];
 
-        /* Simulate animation */
-        yield return new WaitForSeconds(waitFor);
-        MonoBehaviourRef.GetComponent<SpriteRenderer>().color = SpriteColour;
         IsComplete = true;
 
         OnChoice?.Invoke(BATTLE_ACTION_TYPE.HEAL, ChosenTarget);        
@@ -78,17 +69,20 @@ public class DoMakeChoice : AState
 
         Debug.Log("Making A Choice...");
 
-        /* First pick an action to perform (again naively, this is where AI would kick in). */
-        BATTLE_ACTION_TYPE chosenAction = PossibleActions[UnityEngine.Random.Range(0, PossibleActions.Count)];
+        /* Fake pick just for example purposes */
+        MonoBehaviourRef.GetComponent<FakeAnimator>().PlayThinking(UnityEngine.Random.Range(1f, 3f), () => {
+            /* First pick an action to perform (again naively, this is where AI would kick in). */
+            BATTLE_ACTION_TYPE chosenAction = PossibleActions[UnityEngine.Random.Range(0, PossibleActions.Count)];
 
-        switch(chosenAction)
-        {
-            case BATTLE_ACTION_TYPE.ATTACK:
-                MonoBehaviourRef.StartCoroutine(OnAttackChosen(UnityEngine.Random.Range(1f, 5f)));
-                break;
-            case BATTLE_ACTION_TYPE.HEAL:
-                MonoBehaviourRef.StartCoroutine(OnHealChosen(UnityEngine.Random.Range(1f, 5f)));
-                break;
-        }
+            switch (chosenAction)
+            {
+                case BATTLE_ACTION_TYPE.ATTACK:
+                    OnAttackChosen();
+                    break;
+                case BATTLE_ACTION_TYPE.HEAL:
+                    OnHealChosen();
+                    break;
+            }
+        });        
     }
 }

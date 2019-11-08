@@ -173,6 +173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 247559712}
   - component: {fileID: 247559711}
+  - component: {fileID: 247559713}
   - component: {fileID: 247559710}
   m_Layer: 0
   m_Name: EnemyActor3
@@ -244,7 +245,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actorName: Jeb
-  opponentTag: Ally
   factionType: 1
 --- !u!4 &247559712
 Transform:
@@ -260,6 +260,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &247559713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 247559709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e79bc6a5901404408c02d6c38923b75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &457521294
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,6 +607,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1621397599}
   - component: {fileID: 1621397600}
+  - component: {fileID: 1621397602}
   - component: {fileID: 1621397601}
   m_Layer: 0
   m_Name: EnemyActor2
@@ -630,7 +643,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actorName: Biff
-  opponentTag: Ally
   factionType: 1
 --- !u!212 &1621397601
 SpriteRenderer:
@@ -682,6 +694,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1621397602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1621397598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e79bc6a5901404408c02d6c38923b75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1679224904
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,6 +716,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1679224905}
   - component: {fileID: 1679224906}
+  - component: {fileID: 1679224908}
   - component: {fileID: 1679224907}
   m_Layer: 0
   m_Name: AllyActor1
@@ -727,7 +752,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actorName: Becky
-  opponentTag: Enemy
   factionType: 0
 --- !u!212 &1679224907
 SpriteRenderer:
@@ -779,6 +803,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1679224908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679224904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e79bc6a5901404408c02d6c38923b75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1968360650
 GameObject:
   m_ObjectHideFlags: 0
