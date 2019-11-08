@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
 
 /* This should be a mock service
  * To avoid coroutines, try this (and a make use of queue again):
@@ -9,66 +8,92 @@ using System.Collections;
  * 
  * None of these will work unless invoked. But they're not staying
  * anyway, this is the next part to fix.
+ * 
+ * Some callback hell starting here... not a good idea.
  */
 public class FakeAnimator : MonoBehaviour
 {
+    private FSM animFsm;
     private Color SpriteColour;
 
     private void Start()
     {
         SpriteColour = GetComponent<SpriteRenderer>().color;
+        animFsm = new FSM();
     }
 
-    public IEnumerator PlayHeal(float waitFor = 1f, Action onComplete = null)
+    private void Update()
+    {
+        animFsm.Update();
+    }
+
+    public void PlayHeal(Action onComplete = null)
     {
         GetComponent<SpriteRenderer>().color = Color.cyan;
 
-        yield return new WaitForSeconds(waitFor);
-        
-        GetComponent<SpriteRenderer>().color = SpriteColour;
+        animFsm.Push(new TestAnimation(() =>
+        {
+            Debug.Log("Exit");
+            GetComponent<SpriteRenderer>().color = SpriteColour;
+
+            onComplete?.Invoke();
+        }, "HealIt"));
     }
 
-    public IEnumerator PlayHit(float waitFor = 1f, Action onComplete = null)
+    public void PlayHit(Action onComplete = null)
     {
         GetComponent<SpriteRenderer>().color = Color.yellow;
 
-        yield return new WaitForSeconds(waitFor);
+        animFsm.Push(new TestAnimation(() =>
+        {
+            Debug.Log("Exit");
+            GetComponent<SpriteRenderer>().color = SpriteColour;
 
-        GetComponent<SpriteRenderer>().color = SpriteColour;
+            onComplete?.Invoke();
+        }, "HitIt"));
     }
 
-    public IEnumerator PlayTakeHeal(float waitFor = 1f, Action onComplete = null)
+    public void PlayTakeHeal(Action onComplete = null)
     {
         Debug.Log(gameObject.name + " took heals.");
         GetComponent<SpriteRenderer>().color = Color.blue;
 
-        yield return new WaitForSeconds(waitFor);
+        animFsm.Push(new TestAnimation(() =>
+        {
+            GetComponent<SpriteRenderer>().color = SpriteColour;
+            Debug.Log(gameObject.name + " done taking heals.");
 
-        GetComponent<SpriteRenderer>().color = SpriteColour;
-        Debug.Log(gameObject.name + " done taking heals.");
+            onComplete?.Invoke();
+        }));
+      
     }
 
-    public IEnumerator PlayTakeDamage(float waitFor = 1f, Action onComplete = null)
+    public void PlayTakeDamage(Action onComplete = null)
     {
-        Debug.Log(gameObject.name + " took dmaage.");
+        Debug.Log(gameObject.name + " took damage.");
         GetComponent<SpriteRenderer>().color = Color.red;
 
-        yield return new WaitForSeconds(waitFor);
+        animFsm.Push(new TestAnimation(() =>
+        {
+            GetComponent<SpriteRenderer>().color = SpriteColour;
+            Debug.Log(gameObject.name + " done taking damage.");
 
-        GetComponent<SpriteRenderer>().color = SpriteColour;
-        Debug.Log(gameObject.name + " done taking damage.");
+            onComplete?.Invoke();
+        }));
     }
 
-    public IEnumerator PlayThinking(float waitFor = 1f, Action onComplete = null)
+    public void PlayThinking(Action onComplete = null)
     {
         Debug.Log(gameObject.name + " is thinking.");
         GetComponent<SpriteRenderer>().color = Color.green;
 
-        yield return new WaitForSeconds(waitFor);
+        animFsm.Push(new TestAnimation(() =>
+        {
+            GetComponent<SpriteRenderer>().color = SpriteColour;
+            Debug.Log(gameObject.name + " has decided.");
 
-        GetComponent<SpriteRenderer>().color = SpriteColour;
-        Debug.Log(gameObject.name + " has decided.");
-
-        onComplete?.Invoke();
+            onComplete?.Invoke();
+        }));
     }
 }
+;

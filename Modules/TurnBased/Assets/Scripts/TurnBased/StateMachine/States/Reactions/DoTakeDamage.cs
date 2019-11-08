@@ -1,20 +1,18 @@
-﻿using UnityEngine;
-
-public class DoTakeDamage : AState
+﻿public class DoTakeDamage : AState
 {
-    private Color SpriteColour;
+    private FakeAnimator anim;
 
-    public DoTakeDamage(MonoBehaviour _monoBehaviour) :
-        base(_monoBehaviour)
+    public DoTakeDamage(FakeAnimator anim)
     {
         Id = "takeDamage";
-        SpriteColour = MonoBehaviourRef.GetComponent<SpriteRenderer>().color;
+        this.anim = anim;
     }
 
     public override void Enter()
     {
         IsComplete = false;
-
-        MonoBehaviourRef.GetComponent<FakeAnimator>().PlayTakeDamage();
+        anim.PlayTakeDamage(() => {
+            IsComplete = true;
+        });
     }
 }

@@ -7,6 +7,7 @@ public class DoMakeChoice : AState
 {
     public FACTION_TYPE factionType;
     public FACTION_TYPE opponentFactionType;
+    private FakeAnimator anim;
     private Color SpriteColour;
     private Action<BATTLE_ACTION_TYPE, FakeActor> OnChoice;
     private List<BATTLE_ACTION_TYPE> PossibleActions = new List<BATTLE_ACTION_TYPE>
@@ -15,17 +16,16 @@ public class DoMakeChoice : AState
         BATTLE_ACTION_TYPE.HEAL
     };
 
-    public DoMakeChoice(MonoBehaviour _monoBehaviour, Action<BATTLE_ACTION_TYPE, FakeActor> OnChoice = null) :
-        base(_monoBehaviour)
+    public DoMakeChoice(FakeAnimator anim, FakeActor ActorInstance, SpriteRenderer renderer, Action<BATTLE_ACTION_TYPE, FakeActor> OnChoice = null)
     {
         Id = "choice";
-        FakeActor ActorInstance = MonoBehaviourRef.GetComponent<FakeActor>();
         factionType = ActorInstance.factionType;
         opponentFactionType = ActorInstance.opponentFactionType;
 
-        this.OnChoice = OnChoice;
+        SpriteColour = renderer.color;
 
-        SpriteColour = MonoBehaviourRef.GetComponent<SpriteRenderer>().color;
+        this.anim = anim;
+        this.OnChoice = OnChoice;
     }
 
     /* Simulate chosen actions and animation delays */
@@ -70,7 +70,7 @@ public class DoMakeChoice : AState
         Debug.Log("Making A Choice...");
 
         /* Fake pick just for example purposes */
-        MonoBehaviourRef.GetComponent<FakeAnimator>().PlayThinking(UnityEngine.Random.Range(1f, 3f), () => {
+        anim.PlayThinking(() => {
             /* First pick an action to perform (again naively, this is where AI would kick in). */
             BATTLE_ACTION_TYPE chosenAction = PossibleActions[UnityEngine.Random.Range(0, PossibleActions.Count)];
 

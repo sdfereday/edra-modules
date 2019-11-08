@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using UnityEngine;
+using System.Collections.Generic;
 using System.Linq;
 
 /* This FSM type is an auto-exit type. It might be worthwhile making a different
@@ -46,6 +47,16 @@ public class FSM
 
     public void Push(AState stateInstance)
     {
+        StateStack.Add(stateInstance);
+        WaitingToFinish = true;
+
+        AState currentState = Top(StateStack);
+        if (currentState != null)
+        {
+            currentState.Enter();
+        }
+
+        /* Broken when push same IDs (needs work):
         if (!StateStack.Any(x => x.Id == stateInstance.Id))
         {
             StateStack.Add(stateInstance);
@@ -56,6 +67,10 @@ public class FSM
             {
                 currentState.Enter();
             }
-        }
+        } else
+        {
+            Debug.Log("Duplicate state tried to be pushed:");
+            Debug.Log(stateInstance.Id);
+        }*/
     }
 }

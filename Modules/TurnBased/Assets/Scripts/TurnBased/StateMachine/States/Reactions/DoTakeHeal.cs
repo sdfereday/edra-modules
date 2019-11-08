@@ -1,20 +1,18 @@
-﻿using UnityEngine;
-
-public class DoTakeHeal : AState
+﻿public class DoTakeHeal : AState
 {
-    private Color SpriteColour;
+    private FakeAnimator anim;
 
-    public DoTakeHeal(MonoBehaviour _monoBehaviour) :
-        base(_monoBehaviour)
+    public DoTakeHeal(FakeAnimator anim)
     {
         Id = "takeHeal";
-        SpriteColour = MonoBehaviourRef.GetComponent<SpriteRenderer>().color;
+        this.anim = anim;
     }
 
     public override void Enter()
     {
         IsComplete = false;
-        
-        MonoBehaviourRef.GetComponent<FakeAnimator>().PlayTakeHeal();
+        anim.PlayTakeHeal(() => {
+            IsComplete = true;
+        });
     }
 }

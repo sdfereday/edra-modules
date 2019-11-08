@@ -26,23 +26,24 @@ public class FakeActor : MonoBehaviour
     }
 
     // Your turn
+    /* Not sure what the hell's going on here... but should probably 'not' pass stuff in like this */
     public void TakeTurn() =>
-        fsm.Push(new DoMakeChoice(this, (BATTLE_ACTION_TYPE actionType, FakeActor target) => {
+        fsm.Push(new DoMakeChoice(GetComponent<FakeAnimator>(), this, GetComponent<SpriteRenderer>(), (BATTLE_ACTION_TYPE actionType, FakeActor target) => {
             switch(actionType)
             {
                 case BATTLE_ACTION_TYPE.ATTACK:
-                    fsm.Push(new DoHit(this, target));
+                    fsm.Push(new DoHit(GetComponent<FakeAnimator>(), target));
                     break;
                 case BATTLE_ACTION_TYPE.HEAL:
-                    fsm.Push(new DoHeal(this, target));
+                    fsm.Push(new DoHeal(GetComponent<FakeAnimator>(), target));
                     break;
             }
         }));
 
     // If hit, etc
     public void FakeHitReaction() =>
-        fsm.Push(new DoTakeDamage(this));
+        fsm.Push(new DoTakeDamage(GetComponent<FakeAnimator>()));
 
     public void FakeHealReaction() =>
-        fsm.Push(new DoTakeHeal(this));
+        fsm.Push(new DoTakeHeal(GetComponent<FakeAnimator>()));
 }
