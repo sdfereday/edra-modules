@@ -3,8 +3,7 @@
     private FakeAnimator anim;
     private FakeActor target;
 
-    public DoHeal(FakeAnimator anim, FakeActor target) 
-        
+    public DoHeal(FakeAnimator anim, FakeActor target)    
     {
         Id = "heal";
         this.anim = anim;
@@ -18,6 +17,7 @@
         anim.PlayHeal(() => {
             IsComplete = true;
         });
+
         target.FakeHealReaction();
     }
 }

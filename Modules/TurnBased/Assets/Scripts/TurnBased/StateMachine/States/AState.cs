@@ -2,6 +2,7 @@
 
 public abstract class AState
 {
+    public virtual bool Stackable => false;
     public string Id { get; protected set; }
     public bool IsComplete { get; protected set; }
 

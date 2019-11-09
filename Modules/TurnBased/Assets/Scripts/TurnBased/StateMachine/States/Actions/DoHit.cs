@@ -4,7 +4,6 @@
     private FakeActor target;
 
     public DoHit(FakeAnimator anim, FakeActor target) 
-        
     {
         Id = "attack";
         this.anim = anim;

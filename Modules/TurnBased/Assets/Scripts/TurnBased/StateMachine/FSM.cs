@@ -29,35 +29,17 @@ public class FSM
                 currentState.Exit();
                 StateStack = StateStack.Where(x => !x.IsComplete).ToList();
 
+                /* We don't enter in the same loop as an exit, or the states may conflict. */
                 currentState = Top(StateStack);
 
-                /* If there's another state to continue with in the stack, enter it. Note that
-                 * params cannot be passed here right now, so this might not be desirable. */
-                if (currentState != null)
-                {
-                    currentState.Enter();
-                }
-                else
-                {
-                    WaitingToFinish = false;
-                }
+                WaitingToFinish = currentState == null;
             }
         }
     }
 
     public void Push(AState stateInstance)
     {
-        StateStack.Add(stateInstance);
-        WaitingToFinish = true;
-
-        AState currentState = Top(StateStack);
-        if (currentState != null)
-        {
-            currentState.Enter();
-        }
-
-        /* Broken when push same IDs (needs work):
-        if (!StateStack.Any(x => x.Id == stateInstance.Id))
+        if (stateInstance.Stackable || !StateStack.Any(x => x.Id == stateInstance.Id))
         {
             StateStack.Add(stateInstance);
             WaitingToFinish = true;
@@ -71,6 +53,6 @@ public class FSM
         {
             Debug.Log("Duplicate state tried to be pushed:");
             Debug.Log(stateInstance.Id);
-        }*/
+        }
     }
 }

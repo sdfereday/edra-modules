@@ -3,7 +3,8 @@ using System;
 
 public class TestAnimation : AState
 {
-    public float targetTime = 3f;
+    public override bool Stackable => true;
+    public float targetTime = 1f;
     private string Tag;
     private Action onComplete;
 
@@ -17,20 +18,10 @@ public class TestAnimation : AState
     public override void Enter()
     {
         IsComplete = false;
-
-        if (Tag.Length > 0)
-        {
-            Debug.Log(Tag);
-        }
     }
 
     public override void Update()
     {
-        if (Tag.Length > 0)
-        {
-            Debug.Log(Tag);
-        }
-
         targetTime -= Time.deltaTime;
 
         if (targetTime <= 0.0f)
@@ -43,6 +34,7 @@ public class TestAnimation : AState
     {
         if (Tag.Length > 0)
         {
+            Debug.Log("Anim exited:");
             Debug.Log(Tag);
         }
 

@@ -33,7 +33,6 @@ public class FakeAnimator : MonoBehaviour
 
         animFsm.Push(new TestAnimation(() =>
         {
-            Debug.Log("Exit");
             GetComponent<SpriteRenderer>().color = SpriteColour;
 
             onComplete?.Invoke();
@@ -46,7 +45,6 @@ public class FakeAnimator : MonoBehaviour
 
         animFsm.Push(new TestAnimation(() =>
         {
-            Debug.Log("Exit");
             GetComponent<SpriteRenderer>().color = SpriteColour;
 
             onComplete?.Invoke();
@@ -55,13 +53,13 @@ public class FakeAnimator : MonoBehaviour
 
     public void PlayTakeHeal(Action onComplete = null)
     {
-        Debug.Log(gameObject.name + " took heals.");
+        Debug.Log(gameObject.name + " animates heals.");
         GetComponent<SpriteRenderer>().color = Color.blue;
 
         animFsm.Push(new TestAnimation(() =>
         {
             GetComponent<SpriteRenderer>().color = SpriteColour;
-            Debug.Log(gameObject.name + " done taking heals.");
+            Debug.Log(gameObject.name + " done animates heals.");
 
             onComplete?.Invoke();
         }));
@@ -70,13 +68,13 @@ public class FakeAnimator : MonoBehaviour
 
     public void PlayTakeDamage(Action onComplete = null)
     {
-        Debug.Log(gameObject.name + " took damage.");
+        Debug.Log(gameObject.name + " animates damage.");
         GetComponent<SpriteRenderer>().color = Color.red;
 
         animFsm.Push(new TestAnimation(() =>
         {
             GetComponent<SpriteRenderer>().color = SpriteColour;
-            Debug.Log(gameObject.name + " done taking damage.");
+            Debug.Log(gameObject.name + " done animates damage.");
 
             onComplete?.Invoke();
         }));
